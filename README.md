@@ -62,50 +62,6 @@ Bash
 
 argocd login localhost:8080 --insecure
 
-📄 Application Manifest Reference
-
-The file nginx-app.yaml contains the entire desired state configuration for our web workspace. It pairs a stateless Deployment with an exposed external network NodePort:
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-  labels:
-    app: my-nginx
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: my-nginx
-  template:
-    metadata:
-      labels:
-        app: my-nginx
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:latest
-        ports:
-        - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-service
-spec:
-  type: NodePort
-  selector:
-    app: my-nginx
-  ports:
-    - port: 80
-      targetPort: 80
-      nodePort: 30080
-
-⚡ Git Setup & Remote Redirection Instructions
-
-When pushing this directory online, configure your Git context to clear out historic links (e.g., Jenkins or old Maven tracks) and prioritize SSH connections:
-Bash
-
 # Initialize repository tracking locally
 git init
 git add nginx-app.yaml
